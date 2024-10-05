@@ -1,15 +1,14 @@
-import { Promise } from "mongoose"
 
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
-        Promise.resolve(requestHandler(req, res, next)).catch(next);
+      Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
     };
-};
+  };
 // Promise.resolve() ensures that the result of requestHandler is handled as a promise.
 // If the promise resolves, it continues as normal.
 // If it rejects (i.e., an error occurs), .catch(next) catches the error and passes it to the Express error-handling middleware using next(err).
 // This simplifies error handling for asynchronous operations.
-export {asyncHandler}
+export default asyncHandler
 
 
 
